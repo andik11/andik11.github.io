@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Pembukuan Instan</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .form-container {
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 10px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .btn {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1><center>SISTEM PEMBUKUAN INSTAN
+        By. RASdev
+    </h1></center>
+    <div class="form-container">
+        <form id="financeForm">
+            <div class="form-group">
+                <label for="type">Jenis Transaksi</label>
+                <select id="type" required>
+                    <option value="">Pilih</option>
+                    <option value="Pemasukan">Pemasukan</option>
+                    <option value="Pengeluaran">Pengeluaran</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="category">Kategori</label>
+                <select id="category" required>
+                    <option value="">Pilih</option>
+                    <!-- Pemasukan -->
+                    <option value="Gaji Bulanan">Gaji Bulanan</option>
+                    <option value="Gaji Mingguan">Gaji Mingguan</option>
+                    <option value="Uang Makan">Uang Makan</option>
+                    <option value="Tambahan">Tambahan (Sampingan)</option>
+                    <option value="Bonus">Bonus</option>
+                    <!-- Pengeluaran -->
+                    <option value="Operasional">Biaya Operasional</option>
+                    <option value="Bulanan">Biaya Bulanan</option>
+                    <option value="Makan">Biaya Makan</option>
+                    <option value="Jajan">Biaya Jajan (lain-lain)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="amount">Jumlah (Rp)</label>
+                <input type="number" id="amount" min="0" required>
+            </div>
+            <button type="submit" class="btn">Tambahkan</button>
+        </form>
+    </div>
+    <h2>Rekap Pembukuan</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Tanggal</th>
+                <th>Jenis</th>
+                <th>Kategori</th>
+                <th>Jumlah (Rp)</th>
+            </tr>
+        </thead>
+        <tbody id="transactionTable">
+            <!-- Data transaksi akan ditambahkan di sini -->
+        </tbody>
+    </table>
+    <h2>Total</h2>
+    <p><strong>Total Pemasukan: </strong>Rp <span id="totalIncome">0</span></p>
+    <p><strong>Total Pengeluaran: </strong>Rp <span id="totalExpense">0</span></p>
+    <p><strong>Saldo Akhir: </strong>Rp <span id="finalBalance">0</span></p>
+
+    <button id="generatePDF" class="btn">Generate PDF</button>
+
+    <!-- Tambahkan script autoTable -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.22/jspdf.plugin.autotable.js"></script>
+
+    <script>
+        const form = document.getElementById('financeForm');
+        const transactionTable = document.getElementById('transactionTable');
+        const totalIncomeEl = document.getElementById('totalIncome');
+        const totalExpenseEl = document.getElementById('totalExpense');
+        const finalBalanceEl = document.getElementById('finalBalance');
+        const generatePDFButton = document.getElementById('generatePDF');
+
+        let totalIncome = 0;
+        let totalExpense = 0;
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const type = document.getElementById('type').value;
+            const category = document.getElementById('category').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+            const date = new Date().toLocaleDateString();
+
+            if (type === 'Pemasukan') {
+                totalIncome += amount;
+            } else if (type === 'Pengeluaran') {
+                totalExpense += amount;
+            }
+
+            const row = `<tr>
+                <td>${date}</td>
+                <td>${type}</td>
+                <td>${category}</td>
+                <td>Rp ${amount.toLocaleString()}</td>
+            </tr>`;
+            transactionTable.innerHTML += row;
+
+            totalIncomeEl.textContent = totalIncome.toLocaleString();
+            totalExpenseEl.textContent = totalExpense.toLocaleString();
+            finalBalanceEl.textContent = (totalIncome - totalExpense).toLocaleString();
+
+            form.reset();
+        });
+
+        generatePDFButton.addEventListener('click', function () {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const tableData = [];
+
+            // Ambil data transaksi dari tabel
+            const rows = transactionTable.rows;
+            for (let i = 0; i < rows.length; i++) {
+                const cols = rows[i].cells;
+                const row = [
+                    cols[0].innerText, // Tanggal
+                    cols[1].innerText, // Jenis
+                    cols[2].innerText, // Kategori
+                    cols[3].innerText  // Jumlah
+                ];
+                tableData.push(row);
+            }
+
+            // Menambahkan judul dan tabel pada PDF
+            doc.setFontSize(18);
+            doc.text('Pembukuan Instan By.RASdev', 20, 20);
+            doc.setFontSize(12);
+            doc.text('Tanggal: ' + new Date().toLocaleDateString(), 20, 30);
+
+            // Menambahkan Tabel
+            doc.autoTable({
+                head: [['Tanggal', 'Jenis', 'Kategori', 'Jumlah']],
+                body: tableData,
+                startY: 40,
+                theme: 'grid'
+            });
+
+            // Menambahkan Total dan Saldo Akhir
+            doc.text(`Total Pemasukan: Rp ${totalIncome.toLocaleString()}`, 20, doc.lastAutoTable.finalY + 10);
+            doc.text(`Total Pengeluaran: Rp ${totalExpense.toLocaleString()}`, 20, doc.lastAutoTable.finalY + 20);
+            doc.text(`Saldo Akhir: Rp ${(totalIncome - totalExpense).toLocaleString()}`, 20, doc.lastAutoTable.finalY + 30);
+
+            // Mengunduh PDF
+            doc.save('PembukuanInstan.pdf');
+        });
+    </script>
+</body>
+</html>
