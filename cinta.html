@@ -131,9 +131,9 @@
             const amount = parseFloat(document.getElementById('amount').value);
             const date = new Date().toLocaleDateString();
 
-            if (type === 'Pemasukan') {
+            if (type === '🟢 Pemasukan') {
                 totalIncome += amount;
-            } else if (type === 'Pengeluaran') {
+            } else if (type === '🔴 Pengeluaran') {
                 totalExpense += amount;
             }
 
@@ -195,6 +195,7 @@
     </script>
 </body>
 </html>
+
 
 
 
