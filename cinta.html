@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Pembukuan Instan</title>
+    <title>RASite</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -51,7 +51,7 @@
 </head>
 <body>
     <h1><center>SISTEM PEMBUKUAN INSTAN
-        By. RASdev
+        By. RASite 📌
     </h1></center>
     <div class="form-container">
         <form id="financeForm">
@@ -68,16 +68,16 @@
                 <select id="category" required>
                     <option value="">Pilih</option>
                     <!-- Pemasukan -->
-                    <option value="Gaji Bulanan">Gaji Bulanan</option>
-                    <option value="Gaji Mingguan">Gaji Mingguan</option>
-                    <option value="Uang Makan">Uang Makan</option>
-                    <option value="Tambahan">Tambahan (Sampingan)</option>
-                    <option value="Bonus">Bonus</option>
+                    <option value="Gaji Bulanan">🟢 Gaji Bulanan</option>
+                    <option value="Gaji Mingguan">🟢 Gaji Mingguan</option>
+                    <option value="Uang Makan">🟢 Uang Makan</option>
+                    <option value="Tambahan">🟢 Tambahan (Sampingan)</option>
+                    <option value="Bonus">🟢 Bonus</option>
                     <!-- Pengeluaran -->
-                    <option value="Operasional">Biaya Operasional</option>
-                    <option value="Bulanan">Biaya Bulanan</option>
-                    <option value="Makan">Biaya Makan</option>
-                    <option value="Jajan">Biaya Jajan (lain-lain)</option>
+                    <option value="Operasional">🔴 Biaya Operasional</option>
+                    <option value="Bulanan">🔴 Biaya Bulanan</option>
+                    <option value="Makan">🔴 Biaya Makan</option>
+                    <option value="Jajan">🔴 Biaya Jajan (lain-lain)</option>
                 </select>
             </div>
             <div class="form-group">
@@ -172,7 +172,7 @@
 
             // Menambahkan judul dan tabel pada PDF
             doc.setFontSize(18);
-            doc.text('Pembukuan Instan By.RASdev', 20, 20);
+            doc.text('Pembukuan Instan By.RASite 📌', 20, 20);
             doc.setFontSize(12);
             doc.text('Tanggal: ' + new Date().toLocaleDateString(), 20, 30);
 
@@ -195,3 +195,4 @@
     </script>
 </body>
 </html>
+
