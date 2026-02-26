@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pembukuan Keuangan</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:#f4f6f9;padding:30px;}
+.container{max-width:1000px;margin:auto;}
+h1{text-align:center;margin-bottom:20px;color:#1e3a8a;}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-bottom:30px;}
+.card{padding:20px;border-radius:15px;color:#fff;}
+.income{background:#16a34a;}
+.expense{background:#dc2626;}
+.balance{background:#2563eb;}
+form{background:#fff;padding:20px;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,0.05);margin-bottom:30px;}
+form input, form select{width:100%;padding:10px;margin:10px 0;}
+button{padding:10px 20px;border:none;background:#2563eb;color:#fff;border-radius:8px;cursor:pointer;}
+button:hover{background:#1d4ed8;}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:15px;overflow:hidden;margin-bottom:30px;}
+th, td{padding:12px;text-align:left;border-bottom:1px solid #eee;}
+th{background:#f1f5f9;}
+.delete-btn{background:#dc2626;padding:5px 10px;font-size:12px;color:#fff;border:none;border-radius:5px;}
+.delete-btn:hover{background:#b91c1c;}
+.filter-section{margin-bottom:20px;}
+.export-btn{background:#f59e0b;margin-right:10px;}
+.export-btn:hover{background:#b45309;}
+@media(max-width:600px){body{padding:20px;}}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>KeuanganKU</h1>
+
+<div class="summary">
+<div class="card income">
+<h3>Total Pemasukan</h3>
+<p id="total-income">Rp 0</p>
+</div>
+<div class="card expense">
+<h3>Total Pengeluaran</h3>
+<p id="total-expense">Rp 0</p>
+</div>
+<div class="card balance">
+<h3>Saldo</h3>
+<p id="balance">Rp 0</p>
+</div>
+</div>
+
+<form id="finance-form">
+<input type="text" id="desc" placeholder="Deskripsi" required>
+<input type="number" id="amount" placeholder="Jumlah (Rp)" required>
+<select id="type">
+<option value="income">Pemasukan</option>
+<option value="expense">Pengeluaran</option>
+</select>
+<input type="date" id="date" required>
+<button type="submit">Tambah Transaksi</button>
+</form>
+
+<div class="filter-section">
+<label for="filter-month">Filter Bulan: </label>
+<input type="month" id="filter-month">
+<button class="btn" onclick="exportPDF()">Export PDF</button>
+<button class="btn export-btn" onclick="exportExcel()">Export Excel</button>
+</div>
+
+<canvas id="finance-chart" style="width:100%;max-width:100%;height:300px;margin-bottom:30px;"></canvas>
+
+<table>
+<thead>
+<tr>
+<th>Tanggal</th>
+<th>Deskripsi</th>
+<th>Jenis</th>
+<th>Jumlah</th>
+<th>Aksi</th>
+</tr>
+</thead>
+<tbody id="transaction-list"></tbody>
+</table>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+
+const form = document.getElementById("finance-form");
+const list = document.getElementById("transaction-list");
+const filterMonth = document.getElementById("filter-month");
+
+form.addEventListener("submit", function(e){
+    e.preventDefault();
+    const transaction = {
+        id: Date.now(),
+        desc: document.getElementById("desc").value,
+        amount: parseInt(document.getElementById("amount").value),
+        type: document.getElementById("type").value,
+        date: document.getElementById("date").value
+    };
+    transactions.push(transaction);
+    localStorage.setItem("transactions", JSON.stringify(transactions));
+    form.reset();
+    render();
+});
+
+function deleteTransaction(id){
+    transactions = transactions.filter(t => t.id !== id);
+    localStorage.setItem("transactions", JSON.stringify(transactions));
+    render();
+}
+
+function filterTransactions(){
+    const month = filterMonth.value;
+    if(!month) return transactions;
+    return transactions.filter(t => t.date.startsWith(month));
+}
+
+function render(){
+    const filtered = filterTransactions();
+    list.innerHTML = "";
+    let income = 0;
+    let expense = 0;
+    let chartLabels = [];
+    let chartIncome = [];
+    let chartExpense = [];
+
+    filtered.forEach(t => {
+        if(t.type==="income") income+=t.amount;
+        else expense+=t.amount;
+
+        const row=document.createElement("tr");
+        row.innerHTML=`
+        <td>${t.date}</td>
+        <td>${t.desc}</td>
+        <td>${t.type==="income"?"Pemasukan":"Pengeluaran"}</td>
+        <td>Rp ${t.amount.toLocaleString()}</td>
+        <td><button class="delete-btn" onclick="deleteTransaction(${t.id})">Hapus</button></td>
+        `;
+        list.appendChild(row);
+        chartLabels.push(t.date);
+        chartIncome.push(t.type==="income"?t.amount:0);
+        chartExpense.push(t.type==="expense"?t.amount:0);
+    });
+
+    document.getElementById("total-income").innerText="Rp "+income.toLocaleString();
+    document.getElementById("total-expense").innerText="Rp "+expense.toLocaleString();
+    document.getElementById("balance").innerText="Rp "+(income-expense).toLocaleString();
+
+    renderChart(chartLabels, chartIncome, chartExpense);
+}
+
+let myChart;
+function renderChart(labels,incomeData,expenseData){
+    const ctx = document.getElementById('finance-chart').getContext('2d');
+    if(myChart) myChart.destroy();
+    myChart = new Chart(ctx,{
+        type:'bar',
+        data:{
+            labels:labels,
+            datasets:[
+                {label:'Pemasukan', data:incomeData, backgroundColor:'#16a34a'},
+                {label:'Pengeluaran', data:expenseData, backgroundColor:'#dc2626'}
+            ]
+        },
+        options:{responsive:true,plugins:{legend:{position:'top'}}}
+    });
+}
+
+filterMonth.addEventListener("change", render);
+
+function exportPDF(){
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    doc.text("Laporan Keuangan",14,20);
+    let y = 30;
+    transactions.forEach(t=>{
+        doc.text(`${t.date} | ${t.desc} | ${t.type} | Rp ${t.amount.toLocaleString()}`,14,y);
+        y+=10;
+    });
+    doc.save("Laporan_Keuangan.pdf");
+}
+
+function exportExcel(){
+    const ws_data = transactions.map(t=>[t.date,t.desc,t.type,t.amount]);
+    const ws = XLSX.utils.aoa_to_sheet([["Tanggal","Deskripsi","Jenis","Jumlah"],...ws_data]);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Laporan");
+    XLSX.writeFile(wb, "Laporan_Keuangan.xlsx");
+}
+
+render();
+</script>
+
+</body>
+</html>
