@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Curriculum Vitae - Ramadhan Andik Saputra</title>
+
+<style>
+:root{
+    --primary:#2A5C82;
+    --secondary:#1C3144;
+    --accent:#3E92CC;
+    --light:#f4f6f9;
+    --dark:#222;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body{
+    background:var(--light);
+    color:var(--dark);
+    line-height:1.6;
+}
+
+.container{
+    max-width:1100px;
+    margin:auto;
+    background:white;
+    display:grid;
+    grid-template-columns: 300px 1fr;
+    box-shadow:0 0 20px rgba(0,0,0,0.1);
+}
+
+/* Sidebar */
+.sidebar{
+    background:var(--secondary);
+    color:white;
+    padding:30px;
+}
+
+.profile-img{
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    margin:auto;
+    display:block;
+    object-fit:cover;
+    border:5px solid var(--accent);
+}
+
+.sidebar h2{
+    margin-top:20px;
+    text-align:center;
+}
+
+.sidebar p{
+    text-align:center;
+    font-size:14px;
+}
+
+.section{
+    margin-top:30px;
+}
+
+.section h3{
+    margin-bottom:10px;
+    border-bottom:2px solid var(--accent);
+    padding-bottom:5px;
+}
+
+.skill{
+    margin-bottom:10px;
+}
+
+.skill-bar{
+    background:#ccc;
+    height:8px;
+    border-radius:5px;
+}
+
+.skill-level{
+    height:8px;
+    border-radius:5px;
+    background:var(--accent);
+}
+
+/* Main Content */
+.main{
+    padding:40px;
+}
+
+.main h1{
+    color:var(--primary);
+    margin-bottom:5px;
+}
+
+.main h4{
+    color:gray;
+    margin-bottom:20px;
+}
+
+.timeline{
+    margin-bottom:20px;
+}
+
+.timeline h3{
+    color:var(--primary);
+}
+
+.timeline-item{
+    margin-bottom:15px;
+}
+
+.timeline-item span{
+    font-size:14px;
+    color:gray;
+}
+
+/* Button */
+.print-btn{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    background:var(--accent);
+    color:white;
+    border:none;
+    padding:15px 20px;
+    border-radius:50px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.print-btn:hover{
+    background:var(--primary);
+}
+
+/* Print Style */
+@media print{
+    .print-btn{
+        display:none;
+    }
+    body{
+        background:white;
+    }
+    .container{
+        box-shadow:none;
+    }
+}
+
+@page {
+    size: A4;
+    margin: 20mm;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <img src="andik.jpg" class="profile-img">
+        <h2>Ramadhan Andik Saputra</h2>
+        <p>Web Developer | Sistem Informasi Manajemen</p>
+
+        <div class="section">
+            <h3>Kontak</h3>
+            <p style="text-align:left;">Email   : ramasyaputra32@gmail.com</p>
+            <p style="text-align:left;">Phone   : 0859-7530-0817</p>
+            <p style="text-align:left;">Website : andik11.github.io</p>
+        </div>
+
+        <div class="section">
+            <h3>Skills</h3>
+
+            <div class="skill">
+                Project Management
+                <div class="skill-bar">
+                    <div class="skill-level" style="width:95%"></div>
+                </div>
+            </div>
+
+            <div class="skill">
+                Data Manajemen
+                <div class="skill-bar">
+                    <div class="skill-level" style="width:95%"></div>
+                </div>
+            </div>
+
+            <div class="skill">
+                Microsoft Office
+                <div class="skill-bar">
+                    <div class="skill-level" style="width:95%"></div>
+                </div>
+            </div>
+
+            <div class="skill">
+                HTML
+                <div class="skill-bar">
+                    <div class="skill-level" style="width:95%"></div>
+                </div>
+            </div>
+
+            <div class="skill">
+                PHP
+                <div class="skill-bar">
+                    <div class="skill-level" style="width:80%"></div>
+                </div>
+            </div>
+
+            <div class="skill">
+                CSS
+                <div class="skill-bar">
+                    <div class="skill-level" style="width:90%"></div>
+                </div>
+            </div>
+
+            <div class="skill">
+                Troubleshooting Hardware
+                <div class="skill-bar">
+                    <div class="skill-level" style="width:85%"></div>
+                </div>
+            </div>
+
+            <div class="skill">
+                Troubleshooting Software
+                <div class="skill-bar">
+                    <div class="skill-level" style="width:95%"></div>
+                </div>
+            </div>
+
+            <div class="skill">
+                Troubleshooting Jaringan
+                <div class="skill-bar">
+                    <div class="skill-level" style="width:65%"></div>
+                </div>
+            </div>
+
+            <div class="skill">
+                Problem Solving
+                <div class="skill-bar">
+                    <div class="skill-level" style="width:95%"></div>
+                </div>
+            </div>
+
+            <div class="skill">
+                Creative
+                <div class="skill-bar">
+                    <div class="skill-level" style="width:85%"></div>
+                </div>
+            </div>
+
+            
+
+        </div>
+
+        <div class="section">
+            <h3>Bahasa</h3>
+            <p style="text-align:left;">Indonesia (Native)</p>
+            <p style="text-align:left;">English (Intermediate)</p>
+        </div>
+
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+
+        <h1>Ramadhan Andik Saputra</h1>
+        <h4>Web Developer | Sistem Informasi Manajemen</h4>
+
+        <section class="timeline">
+            <h3>Profil</h3>
+            <p>
+                Saya adalah seorang Freelancer di bidang Teknologi Informasi dengan pemahaman dasar hingga menengah tentang pengembangan sistem, manajemen data, dan pemecahan masalah teknis. Saya terbiasa bekerja secara terstruktur, mampu menganalisis kebutuhan sistem, dan memiliki kemampuan untuk belajar teknologi baru dengan cepat. Saya memiliki keterampilan komunikasi yang baik, dapat bekerja secara mandiri maupun dalam tim, dan berkomitmen untuk memberikan solusi TI yang efektif dan efisien.
+            </p>
+        </section>
+
+        </section>
+
+        <section class="timeline">
+            <h3>Pendidikan</h3>
+
+            <div class="timeline-item">
+                <strong>D3 Manajemen Informatika</strong><br>
+                <span>STIKI Malang - 2022</span>
+                <p>IPK 3,29 </p>
+                    <p>Junior Web Programmer Certificate of
+                    Competence | Ethical Hacking
+                    Fundamentals Certificate | TOEFL Score 450</p>
+            </div>
+            <div class="timeline-item">
+                <strong>Teknik Komputer dan Jaringan</strong><br>
+                <span>SMK Negeri 2 Malang - 2018</span>
+                <p>Computer Networking Certificate of Competence</p>
+            </div>
+
+        </section>
+
+        <section class="timeline">
+            <h3>Pengalaman Kerja</h3>
+
+            <div class="timeline-item">
+                <strong>Staff IT - Melati Children Hospital Malang</strong><br>
+                <span>2025 - Sekarang</span>
+                <p><li>
+                    Memanajemen dan Maintanance SIMRS. </li></p>
+                <p><li>
+                    Instalasi Operating system, Softaware. </li></p>
+                <p><li>Troubleshooting dan Memperbaiki Hardware (Laptop, PC,Printer, Dll).</li> </p>
+                <p> <li>Troubleshooting Jaringan. </li></p>
+                
+            </div>
+
+            <div class="timeline-item">
+                <strong>Web Developer - Freelancer</strong><br>
+                <span>2022 - Sekarang</span>
+                <p><li>
+                    Membantu membuat aplikasi berbasis situs web untuk berbagai keperluan seperti kebutuhan perusahaan, lembaga, bisnis kecil, dll.
+                </li></p>
+            </div>
+
+            <div class="timeline-item">
+                <strong>Project Management (Internship) - KTI STIKI Malang</strong><br>
+                <span>2020 - 2021</span>
+                <p><li>
+                    Mengatur, merencanakan, mengawasi, mengendalikan, dan menutup proyek. </li></p>
+                    <p><li>Melakukan analisis data dan membuat algoritma sistem. </li></p>
+                    <p><li>Membuat desain UI/UX.
+                </li></p>
+            </div>
+
+            <div class="timeline-item">
+                <strong>Teknisi Hardware dan Software - CV Pilaar Malang</strong><br>
+                <span>2017 - 2018</span>
+                <p><li>
+                    Instalasi Operating system, Softaware.</li> </p>
+                    <p><li>Troubleshooting dan Memperbaiki Hardware (Laptop, PC,Printer, Dll). </li></p>
+                
+            </div>
+
+
+        <section class="timeline">
+            <h3>Pengalaman Organisasi</h3>
+
+            <div class="timeline-item">
+                <strong>Keanggotaan (Demang) 2021-2022</strong>
+                <span>KOMPENI (Komunitas Mahasiswa Pecinta Seni)</span>
+                <p><li>
+                    Memberikan panduan dan saran mengenai kegiatan organisasi.
+                </li></p>
+                <p><li>
+                    Memiliki wewenang untuk memberikan peringatan atau panggilan kepada ketua umum, pengurus, dan anggota.
+                </li></p>
+                <p><li>
+                    Mengatur konsep dan format pengumpulan data untuk semua anggota.
+                </li></p>
+                <p><li>
+                    Membangun hubungan baik dengan semua anggota yang kreatif dan inovatif untuk mengembangkan kesejahteraan anggota.
+                </li></p>
+                <p><li>
+                    Menerima saran, masukan, kritik dari anggota yang kemudian ditindaklanjuti dengan melapor ke SIE di atas.
+                </li></p>
+                <p><li>
+                    Bekerja sama dengan SIE lain untuk mengembangkan kegiatan/berbagi dengan anggota.
+                </li></p>
+                <p><li>
+                    Bertanggung jawab atas tugas dan kewajiban yang dipercayakan.
+                </li></p>
+        
+            </div>
+
+            <div class="timeline-item">
+                <strong>Ketua Divisi Musik (Marsose Musik) 2019-2021</strong>
+                <span>KOMPENI (Komunitas Mahasiswa Pecinta Seni)</span>
+                <p><li>
+                   Mengorganisasi konsep dan format serta melaksanakan kegiatan kreatif dan inovatif untuk mengembangkan bakat, minat, dan kemampuan anggota di bidang seni musik.
+                </li></p>
+                <p><li>
+                    Mengorganisasi arahan, pembinaan, dan pelaksanaan kegiatan dengan baik untuk semua anggota agar meningkatkan dan memajukan bidang seni musik.
+                </li></p>
+                <p><li>
+                    Menyelenggarakan kegiatan pelatihan seni musik secara intensif bagi anggota untuk menyalurkan dan mengembangkan bakat, minat, dan keterampilan anggota di bidang seni musik.
+                </li></p>
+                
+            </div>
+
+        </section>
+
+       <!-- <section class="timeline">
+            <h3>Sertifikasi</h3>
+            <ul>
+                <li>Google UX Design Certificate</li>
+                <li>Meta Frontend Developer</li>
+            </ul>
+        </section>-->
+
+    </div>
+</div>
+
+<button class="print-btn" onclick="window.print()">Download PDF</button>
+
+</body>
+</html>
